@@ -5,18 +5,19 @@ import { Leaf, Mail, Lock, User, Shield, Loader2 } from 'lucide-react';
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState<'technician' | 'government'>('technician');
+  const [selectedRole, setSelectedRole] = useState<'technician' | 'government' | 'admin'>('technician');
   const { login, isLoading } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const roleEmail = selectedRole === 'technician' ? 'tech@campus.edu' : 'gov@ministry.gov';
+    const roleEmail = selectedRole === 'technician' ? 'tech@campus.edu' : selectedRole === 'admin' ? 'admin@system.com' : 'gov@ministry.gov';
     await login(roleEmail, password);
   };
 
   const demoCredentials = {
     technician: { email: 'tech@campus.edu', password: 'demo123' },
-    government: { email: 'gov@ministry.gov', password: 'demo123' }
+    government: { email: 'gov@ministry.gov', password: 'demo123' },
+    admin: { email: 'admin@system.com', password: 'demo123' }
   };
 
   return (
@@ -58,6 +59,18 @@ const LoginScreen: React.FC = () => {
             >
               <Shield className="h-6 w-6 mx-auto mb-2" />
               <div className="text-sm font-medium">Government Official</div>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedRole('admin')}
+              className={`p-4 rounded-xl border-2 transition-all duration-200 col-span-2 ${
+                selectedRole === 'admin'
+                  ? 'border-red-500 bg-red-50 text-red-700'
+                  : 'border-gray-200 hover:border-gray-300 text-gray-600'
+              }`}
+            >
+              <Shield className="h-6 w-6 mx-auto mb-2" />
+              <div className="text-sm font-medium">System Administrator</div>
             </button>
           </div>
         </div>
@@ -101,6 +114,8 @@ const LoginScreen: React.FC = () => {
               className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-all duration-200 flex items-center justify-center space-x-2 ${
                 selectedRole === 'technician'
                   ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700'
+                  : selectedRole === 'admin'
+                  ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700'
                   : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700'
               } ${isLoading ? 'opacity-75 cursor-not-allowed' : 'hover:shadow-lg'}`}
             >
@@ -121,6 +136,7 @@ const LoginScreen: React.FC = () => {
             <div className="text-xs text-gray-600 space-y-1">
               <div><strong>Technician:</strong> {demoCredentials.technician.email} / {demoCredentials.technician.password}</div>
               <div><strong>Government:</strong> {demoCredentials.government.email} / {demoCredentials.government.password}</div>
+              <div><strong>Admin:</strong> {demoCredentials.admin.email} / {demoCredentials.admin.password}</div>
             </div>
             <button
               type="button"

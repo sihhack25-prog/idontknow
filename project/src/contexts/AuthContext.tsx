@@ -40,7 +40,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Mock authentication logic
     let mockUser: User;
     
-    if (email.includes('tech') || email.includes('facility')) {
+    if (email.includes('admin')) {
+      mockUser = {
+        id: '3',
+        email,
+        role: 'admin',
+        name: 'Admin User',
+        campus: 'System Admin'
+      };
+    } else if (email.includes('tech') || email.includes('facility')) {
       mockUser = {
         id: '1',
         email,

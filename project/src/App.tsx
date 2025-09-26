@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginScreen from './components/LoginScreen';
 import UserDashboard from './components/UserDashboard';
 import GovernmentDashboard from './components/GovernmentDashboard';
+import AdminDashboard from './components/AdminDashboard';
 import SettingsProfile from './components/SettingsProfile';
 
 const AppContent: React.FC = () => {
@@ -36,6 +37,8 @@ const AppContent: React.FC = () => {
         element={
           user.role === 'technician' ? (
             <UserDashboard />
+          ) : user.role === 'admin' ? (
+            <AdminDashboard />
           ) : (
             <GovernmentDashboard />
           )

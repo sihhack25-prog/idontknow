@@ -1,7 +1,7 @@
 export interface User {
   id: string;
   email: string;
-  role: 'technician' | 'government';
+  role: 'technician' | 'government' | 'admin';
   name: string;
   campus?: string;
 }
@@ -41,4 +41,48 @@ export interface KPI {
   gridDependency: number;
   carbonSavings: number;
   costReduction: number;
+}
+
+export interface UserPoints {
+  userId: string;
+  userName: string;
+  campus: string;
+  points: number;
+  renewableUsage: number;
+  rank: number;
+}
+
+export interface PriorityRequest {
+  id: string;
+  type: 'exam_center' | 'classroom' | 'hostel' | 'lab' | 'office';
+  priority: 'grid' | 'solar' | 'wind' | 'solar+wind' | 'solar+wind+grid';
+  occupancy?: number; // for hostels
+  active: boolean;
+}
+
+export interface Region {
+  id: string;
+  name: string;
+  type?: 'solar' | 'wind' | 'grid';
+  usage?: number;
+  coordinates?: [number, number]; // lat, lng
+  campuses?: string[];
+  solar?: number;
+  wind?: number;
+  load?: number;
+  points?: number;
+}
+
+export interface MLMode {
+  active: boolean;
+  prediction: 'solar' | 'wind' | 'solar+wind' | 'solar+wind+grid';
+  confidence: number;
+  lastUpdated: Date;
+}
+
+export interface VoiceCommand {
+  command: string;
+  mode: 'solar' | 'wind' | 'solar+wind' | 'solar+wind+grid';
+  timestamp: Date;
+  success: boolean;
 }
